@@ -2,45 +2,45 @@
 
 Trainig framework for testing GitHub API calls and UI.
 
-## Framework structure
+# Framework structure 
 
-  
-
-###  Config module
+##  Config module
 Configuration parameters for the whole testing framework. All configurable parameters are located in the `config.py` file inside the `Config` class.
 
-#### Parameters description
-description
+**1. Parameters description**
+* TBD
 
-#### How to modify
-Configuration steps ...
+**2. How to modify and add parameters**
+* TBD
 
-### Application module
+## Application module
 Module containing application to be tested with submodules for each feature.
 
-#### Submodules 
-##### API
-Submodule containig all API calls for the GitHub application.
-Further description
+**1. Submodules**
+* API - submodule containig all API calls for the GitHub application.
+* UI - submodule for UI 
 
-##### UI
-Description
-
-#### Modifying module
-Info about how to modify module
-
-### Helpers module 
+## Helpers module 
 Minor helper functions used by tests.
 
-#### How to add new methods
-Adding steps ...
+**1. How to add new methods**
+ * TBD
 
-### Logger module
+## Logger module
 Module used for the logging purposes of the tests execution steps and results.
 
-#### Usage
-Usage
+**1. Usage**
+* TBD
 
-#### Configuration
-Configuration steps ...
+**2. Configuration**
+* TBD
+
+## Test module
+Tests for the UI and API calls for GitHub
+
+**1. Configuring and modifying**
+* TBD
+  
+### Running tests
+TBD
 
