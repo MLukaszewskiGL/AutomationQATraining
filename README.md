@@ -13,6 +13,11 @@ Configuration parameters for the whole testing framework. All configurable param
 **2. How to modify and add parameters**
 * TBD
 
+**3. Accessing parameters**
+
+* config module needs to be imported `from config import config`
+* parameters can be accessed via call `config.PARAMETER_NAME` - if not found error will occur
+
 ## Application module
 Module containing application to be tested with submodules for each feature.
 

@@ -1,7 +1,7 @@
 from logging import DEBUG,WARNING
 
 from logger.logger import Logger
-from config.config import conf
+from config.config import config
 
 
 
@@ -14,4 +14,4 @@ def test_logger():
     assert True
 
 def test_config():
-    print(conf.request_timeout)
+    print(config.EXAMPLE_DICT_PARAM)
