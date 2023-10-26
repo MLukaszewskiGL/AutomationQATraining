@@ -10,7 +10,7 @@ class Logger():
     def __init__(self, name, log_file="logs.log", level=logging.INFO, level_stream=logging.WARNING) -> None:
         self.formatter = logging.Formatter("%(asctime)s %(levelname)s %(filename)s %(message)s")
         
-        self.file_handler = logging.FileHandler(filename=log_file + "_" + str(date.today()) + ".log", mode='w')
+        self.file_handler = logging.FileHandler(filename=log_file + "_" + str(date.today()) + ".log", mode='a')
         self.file_handler.setLevel(level)
         self.file_handler.setFormatter(self.formatter)
 
@@ -22,21 +22,16 @@ class Logger():
         self.logger.addHandler(self.file_handler)
         self.logger.addHandler(self.stream_handler)
         self.logger.setLevel(logging.DEBUG)
-        self.logger.debug(f"Logger {name} has been created and initialized")
 
-    def warning(self, message):
-        self.logger.warning(message)
+        self.logger.info(f"File handler level '{self.file_handler.level}'")
+        self.logger.info(f"Stream handler level '{self.stream_handler.level}'")
+        self.logger.info(f"Logger '{self.logger.name}' has been created and initialized")
 
-    def error(self, message):
-        self.logger.error(message)
-    
-    def criticar(self, message):
-        self.logger.critical(message)
-    
-    def debug(self, message):
-        self.logger.debug(message)
-    
-    def info(self, message):
-        self.logger.info(message)
+    def __del__(self):
+        self.logger.info(f"'{self.logger.name}' logger has beed destroyed")
 
+# DEFAULT LOGGER
+framework_logger = Logger(name="framework", log_file="framework", level=logging.DEBUG)
 
+# CUSTOM LOGGERS
+api_logger = Logger(name="api_logger", log_file="test_api", level=logging.INFO)

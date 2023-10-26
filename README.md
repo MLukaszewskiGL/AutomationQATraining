@@ -52,19 +52,30 @@ Module used for the logging purposes of the tests execution steps and results.
 
 **1. Usage**\
 Logger class has been created as a wrapper for the `logging` python package with predefined configuration.  
-For each `Logger` instance the name of the logger needs to be provided - it allows to access this specific logger and it's configuration across the framework, file name which will store the logs and the logging level 
+For each `Logger` instance the name of the logger needs to be provided, file name which will store the logs and the logging level 
 for the file storage and I/O stream.
 
 **Example:**
 ```
 logger = Logger(name=__name__,log_file=__name__, level=DEBUG)
-logger.warning("This is a warning message")
-logger.error("This is an error message")
-logger.debug("This is a debug message")
-logger.info("This is an info message")
+logger.logger.warning("This is a warning message")
+logger.logger.error("This is an error message")
+logger.logger.debug("This is a debug message")
+logger.logger.info("This is info message")
 ```
-**2. Configuration**
-* TBD
+>**NOTE**
+>By default the 'framework' logger is created. It's purpose is to gather logs from framework maintenance and configuration tasks. 
+
+**2. Configuration**\
+Adding new logger should take place in `logger/logger.py` file under `# CUSTOM LOGGERS` comment:
+```
+# CUSTOM LOGGERS
+custom_logger = Logger(name="custom_logger", log_file="custom_logs", level=logging.INFO)
+```
+Then new custom logger should be imported in desired modul:
+```
+from logger.logger import custom_logger
+```
 
 ## Test module
 Tests for the UI and API calls for GitHub

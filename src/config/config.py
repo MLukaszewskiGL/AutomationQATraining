@@ -1,8 +1,10 @@
 import os
 import json
 from typing import Any
+from platform import system
 
 from base import BaseProvider, Singleton
+from logger.logger import framework_logger
 
 
 class OSConfigProvider(BaseProvider):
@@ -48,15 +50,16 @@ class Config(metaclass=Singleton):
 
     def __init__(self, conf_providers) -> None:
         self.conf_providers = conf_providers
-
+        framework_logger.logger.debug(f"Providers added {', '.join(str(provider) for provider in self.conf_providers)}")
 
         #REGISTER PARAMETERS 
         self._register("EXAMPLE_JSON_PARAM")
         self._register("EXAMPLE_DICT_PARAM")
 
+        for param in self._conf_params:
+            framework_logger.logger.info(f"Parameter '{param}' registered")
 
 
- 
     def __getattr__(self, item_name: str):
         if item_name not in  self._conf_params:
             raise AttributeError(f"Please register '{item_name}' variable before usage")
@@ -73,8 +76,9 @@ class Config(metaclass=Singleton):
         """
         for conf_provider in self.conf_providers:
             value = conf_provider.get(item_name)
-            if conf_provider.get(item_name) is not None:
+            if value is not None:
                 self._conf_params[item_name] = value
+                framework_logger.logger.info(f"Got '{item_name}:{value}' parameter from {conf_provider}")
                 return
             
         raise ValueError(f"{item_name} parameter is missing inside configuration providers")
@@ -84,6 +88,13 @@ conf_dict = {
     "EXAMPLE_DICT_PARAM": "Dict example param value"
 }
     
-config = Config([JsonConfigProvider("src\\config\\env\\dev_config.json"), OSConfigProvider, DictConfigProvider(conf_dict)])
+
+if system() == "Windows":
+    config = Config([JsonConfigProvider("src\\config\\env\\dev_config.json"), OSConfigProvider, DictConfigProvider(conf_dict)])
+elif system() == "Linux":
+    config = Config([JsonConfigProvider("src/config/env/dev_config.json"), OSConfigProvider, DictConfigProvider(conf_dict)])
+else:
+    raise Exception(f"No configuration for {system()} type OS")
+
 print(config.EXAMPLE_DICT_PARAM)
 print(config.EXAMPLE_JSON_PARAM)
