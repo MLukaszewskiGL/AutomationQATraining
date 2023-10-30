@@ -15,7 +15,7 @@ config = Config([JsonConfigProvider("path/to/config.json"), OSConfigProvider, Di
 > Config class is implemented as Singleton
 
 **1. Parameters description**
-* TBD
+* DOMAIN - domain name of the tested endpoints
 
 **2. How to modify and add parameters**\
 Configuration parameters can be added/modified by editing:

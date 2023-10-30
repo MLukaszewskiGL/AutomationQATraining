@@ -53,8 +53,7 @@ class Config(metaclass=Singleton):
         framework_logger.logger.debug(f"Providers added {', '.join(str(provider) for provider in self.conf_providers)}")
 
         #REGISTER PARAMETERS 
-        self._register("EXAMPLE_JSON_PARAM")
-        self._register("EXAMPLE_DICT_PARAM")
+        self._register("DOMAIN")
 
         for param in self._conf_params:
             framework_logger.logger.info(f"Parameter '{param}' registered")
@@ -85,7 +84,7 @@ class Config(metaclass=Singleton):
             
 
 conf_dict = {
-    "EXAMPLE_DICT_PARAM": "Dict example param value"
+
 }
     
 
@@ -95,6 +94,3 @@ elif system() == "Linux":
     config = Config([JsonConfigProvider("src/config/env/dev_config.json"), OSConfigProvider, DictConfigProvider(conf_dict)])
 else:
     raise Exception(f"No configuration for {system()} type OS")
-
-print(config.EXAMPLE_DICT_PARAM)
-print(config.EXAMPLE_JSON_PARAM)

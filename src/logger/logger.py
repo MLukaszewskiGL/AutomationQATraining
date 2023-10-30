@@ -2,10 +2,12 @@ import logging
 import sys
 from datetime import date
 
+
 class Logger():
     '''
     Logger wrapper class used for logging events accross the whole framework
     '''
+    path = "logs//"
 
     def __init__(self, name, log_file="logs.log", level=logging.INFO, level_stream=logging.WARNING) -> None:
         self.formatter = logging.Formatter("%(asctime)s %(levelname)s %(filename)s %(message)s")
@@ -23,15 +25,15 @@ class Logger():
         self.logger.addHandler(self.stream_handler)
         self.logger.setLevel(logging.DEBUG)
 
-        self.logger.info(f"File handler level '{self.file_handler.level}'")
-        self.logger.info(f"Stream handler level '{self.stream_handler.level}'")
-        self.logger.info(f"Logger '{self.logger.name}' has been created and initialized")
+        self.logger.debug(f"File handler level '{self.file_handler.level}'")
+        self.logger.debug(f"Stream handler level '{self.stream_handler.level}'")
+        self.logger.debug(f"Logger '{self.logger.name}' has been created and initialized")
 
     def __del__(self):
-        self.logger.info(f"'{self.logger.name}' logger has beed destroyed")
+        self.logger.debug(f"'{self.logger.name}' logger has beed destroyed")
 
 # DEFAULT LOGGER
-framework_logger = Logger(name="framework", log_file="framework", level=logging.DEBUG)
+framework_logger = Logger(name="framework", log_file=Logger.path + "framework", level=logging.DEBUG)
 
 # CUSTOM LOGGERS
-api_logger = Logger(name="api_logger", log_file="test_api", level=logging.INFO)
+github_api_logger = Logger(name="github_api_logger", log_file=Logger.path + "test_github_api", level=logging.DEBUG)
