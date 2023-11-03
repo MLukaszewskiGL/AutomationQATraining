@@ -3,9 +3,12 @@ import json
 from typing import Any
 from platform import system
 
-from base import BaseProvider, Singleton
-from logger.logger import framework_logger
+from base import BaseProvider
+from helpers.singleton import Singleton
+from logger.logger import Logger
 
+
+framework_logger = Logger.get_logger("framework")
 
 class OSConfigProvider(BaseProvider):
 
@@ -50,13 +53,15 @@ class Config(metaclass=Singleton):
 
     def __init__(self, conf_providers) -> None:
         self.conf_providers = conf_providers
-        framework_logger.logger.debug(f"Providers added {', '.join(str(provider) for provider in self.conf_providers)}")
+        framework_logger.debug(f"Providers added {', '.join(str(provider) for provider in self.conf_providers)}")
 
         #REGISTER PARAMETERS 
         self._register("DOMAIN")
+        self._register("GIT_SEARCH_URI")
+    
 
         for param in self._conf_params:
-            framework_logger.logger.info(f"Parameter '{param}' registered")
+            framework_logger.info(f"Parameter '{param}' registered")
 
 
     def __getattr__(self, item_name: str):
@@ -77,7 +82,7 @@ class Config(metaclass=Singleton):
             value = conf_provider.get(item_name)
             if value is not None:
                 self._conf_params[item_name] = value
-                framework_logger.logger.info(f"Got '{item_name}:{value}' parameter from {conf_provider}")
+                framework_logger.info(f"Got '{item_name}:{value}' parameter from {conf_provider}")
                 return
             
         raise ValueError(f"{item_name} parameter is missing inside configuration providers")

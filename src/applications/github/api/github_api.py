@@ -1,11 +1,11 @@
 import requests
 import json
 
-from logger.logger import github_api_logger
+from logger.logger import Logger
 from config.config import config
 
 # Assign logger to it's alias
-logger = github_api_logger
+logger = Logger.get_logger("github_api_logger")
 
 class GitHubAPI():
     """Class contains every API call we use in tests"""
@@ -27,8 +27,11 @@ class GitHubAPI():
             body: .json - body of the response
         """
 
-        r = requests.get(config.DOMAIN + "/search/repositories", params={'q': repo_name})
-        logger.logger.debug(f"Sending request to https://api.github.com/search/repositories, params ='q': {repo_name}")
+        logger.debug(f"Sending request to https://api.github.com/search/repositories, params ='q': {repo_name}")
+
+        # CHange /search/repos to contant and make separate file for this type of const like github_uris.json
+        r = requests.get(config.DOMAIN + config.GIT_SEARCH_URI, params={'q': repo_name})
+        
         body = r.json()
-        logger.logger.debug(f"Response body: \n{json.dumps(body,indent=4)}")
+        logger.debug(f"Response body: {json.dumps(body,indent=4)}")
         return body
