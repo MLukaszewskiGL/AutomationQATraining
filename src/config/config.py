@@ -57,8 +57,9 @@ class Config(metaclass=Singleton):
 
         #REGISTER PARAMETERS 
         self._register("DOMAIN")
+        self._register("BROWSER")
         self._register("GIT_SEARCH_URI")
-    
+        self._register("GIT_LOGIN_PAGE")
 
         for param in self._conf_params:
             framework_logger.info(f"Parameter '{param}' registered")
@@ -94,8 +95,8 @@ conf_dict = {
     
 
 if system() == "Windows":
-    config = Config([JsonConfigProvider("src\\config\\env\\dev_config.json"), OSConfigProvider, DictConfigProvider(conf_dict)])
+    config = Config([JsonConfigProvider("src\\config\\env\\dev_config.json"), JsonConfigProvider("src\\config\\env\\github_uri.json"), OSConfigProvider, DictConfigProvider(conf_dict)])
 elif system() == "Linux":
-    config = Config([JsonConfigProvider("src/config/env/dev_config.json"), OSConfigProvider, DictConfigProvider(conf_dict)])
+    config = Config([JsonConfigProvider("src/config/env/dev_config.json"),JsonConfigProvider("src/config/env/github_uri.json"), OSConfigProvider, DictConfigProvider(conf_dict)])
 else:
     raise Exception(f"No configuration for {system()} type OS")

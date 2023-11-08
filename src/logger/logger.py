@@ -45,5 +45,5 @@ Logger(name="framework", log_file=Logger._path + "framework", level=logging.DEBU
 
 # CUSTOM LOGGERS
 Logger(name="github_api_logger", log_file=Logger._path + "test_github_api", level=logging.DEBUG)
-
+Logger(name="github_ui_logger", log_file=Logger._path + "test_github_ui", level=logging.DEBUG)
 

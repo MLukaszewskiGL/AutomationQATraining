@@ -16,7 +16,7 @@ class TestsGithubAPI():
 
         assert repos['total_count'] != 0
 
-    def test_for_nonexisting_repo(self,github_api_app):
+    def test_for_nonexisting_repo(self, github_api_app):
         nonexisting_repo_name = 'nonoexistingrepo_name'
         repos = github_api_app.search_repo(nonexisting_repo_name)
 
