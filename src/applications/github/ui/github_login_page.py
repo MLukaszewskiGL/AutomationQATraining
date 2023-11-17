@@ -1,37 +1,39 @@
 import hashlib
 
-from selenium import webdriver
 from selenium.webdriver.common.by import By
 
 from config.config import config
 from logger.logger import Logger
+from base_page import BasePage
+from helpers.browser_provider import BrowserProvider
 
 
 logger = Logger.get_logger("github_ui_logger")
 
-class GitHubUILoginPage():
+
+class GithubLoginPage(BasePage):
     """Github login page object
     
     Methods:
-
+        TBD
     """
     
 
-    def __init__(self) -> None:
+    def __init__(self, browser_name) -> None:
         """Initialize the proper driver corresponding to the defined one in config.BROWSER parameter"""
-
-        if config.BROWSER == "chrome":
-            logger.debug("Chrome browser selected")
-            self.driver = webdriver.Chrome()
-        else:
-            logger.error(f"Non existing browser ({config.BROWSER}) has been selected")
-            raise ValueError("Non existing browser has been selected")
-
+        self.driver = BrowserProvider.get_driver(browser_name)
     def navigate_to_page(self) -> None:
         "Navigates to config.GIT_LOGIN_PAGE uri defined in config files"
 
         self.driver.get(config.GIT_LOGIN_PAGE)
         # add logging
+
+    def find_el(self, locator_name, locator_value):
+        # add waiters / checks
+        # return found element
+        # replace driver.find_element method :)
+        pass
+
 
     def try_to_login(self, username: str, password: str) -> None:
         """Tryes to login into the github account 
@@ -41,13 +43,14 @@ class GitHubUILoginPage():
             password: str - account's password
         """
 
+        logger.debug(f"Logging into github using username: {username}")
         login_fld = self.driver.find_element(By.ID ,"login_field")
         login_fld.send_keys(username)
-        logger.debug(f"Logging into github using username: {username}")
-
+        
+        hash_passwd = hashlib.sha256(password.encode('utf-8')).digest()
+        logger.debug(f"Logging into github using password: {hash_passwd}")
         pass_fld = self.driver.find_element(By.ID ,"password") 
         pass_fld.send_keys(password)
-        logger.debug(f"Logging into github using password: {hashlib.sha256(password.encode('utf-8')).digest()}")
 
         login_fld = self.driver.find_element(By.NAME ,"commit")
         login_fld.click()
